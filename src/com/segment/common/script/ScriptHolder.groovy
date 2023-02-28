@@ -35,7 +35,7 @@ class ScriptHolder extends IntervalJob {
         }
 
         def serverUri = serverContext ? serverContext + uri : uri
-        def body = invoker.request(serverUri, params, String)
+        def body = invoker.request(serverUri, params, String, null, true)
         def arr = JSON.parseArray(body, OneScript)
         for (one in arr) {
             def exist = scripts[one.name]

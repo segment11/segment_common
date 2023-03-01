@@ -42,8 +42,18 @@ class Conf {
     Conf load() {
         def confFile = new File(projectPath('/conf.properties'))
         def confFileDev = new File(projectPath('/src/conf_dev.properties'))
-        loadFromFile(confFile)
-        loadFromFile(confFileDev)
+        def isLoad = loadFromFile(confFile)
+        if (!isLoad) {
+            def isLoadDev = loadFromFile(confFileDev)
+            if (!isLoadDev) {
+                def resource = this.class.classLoader.getResource('conf.properties')
+                if (resource) {
+                    loadFromFile(new File(resource.file))
+                } else {
+                    throw new RuntimeException('conf.properties not found')
+                }
+            }
+        }
         this
     }
 
@@ -60,15 +70,17 @@ class Conf {
         this
     }
 
-    private void loadFromFile(File confFile) {
-        if (confFile.exists()) {
-            confFile.readLines().findAll { it.trim() && !it.startsWith('#') }.each {
-                def arr = it.split('=')
-                if (arr.length >= 2) {
-                    params[arr[0]] = arr[1..-1].join('=')
-                }
+    private boolean loadFromFile(File confFile) {
+        if (!confFile.exists()) {
+            return false
+        }
+        confFile.readLines().findAll { it.trim() && !it.startsWith('#') }.each {
+            def arr = it.split('=')
+            if (arr.length >= 2) {
+                params[arr[0]] = arr[1..-1].join('=')
             }
         }
+        true
     }
 
     boolean isDev() {

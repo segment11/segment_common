@@ -86,7 +86,7 @@ class EtcdChecker {
             // 105 -> Key already exists
             return 105 != errorCode
         } catch (Exception e) {
-            log.error('visit etcd error', e)
+            log.error('access etcd error', e)
             return false
         }
     }

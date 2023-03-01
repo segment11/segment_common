@@ -38,7 +38,9 @@ class LeaderFlagHolder extends IntervalJob {
 
         if (isLeader) {
             checker.continueLeader()
-            log.info 'continue set leader, ip: {}', Utils.localIp()
+            if (intervalCount % 10 == 0) {
+                log.info 'continue set leader, ip: {}, interval count: {}', Utils.localIp(), intervalCount
+            }
         } else {
             boolean isLeaderNew = checker.isLeader()
             if (isLeaderNew != isLeader) {

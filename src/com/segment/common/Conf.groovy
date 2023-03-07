@@ -12,9 +12,13 @@ class Conf {
 
     private String workDir
 
-    Conf resetWorkDir() {
+    Conf resetWorkDir(boolean isTestDir = false) {
         workDir = new File('.').absolutePath.replaceAll("\\\\", '/').
                 replaceAll(/\/src\/.*/, '')
+        if (isTestDir) {
+            workDir = workDir.replaceAll(/\/test\/.*/, '')
+        }
+
         if (workDir[-1] == '.') {
             workDir = workDir[0..-2]
         }

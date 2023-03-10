@@ -28,10 +28,39 @@ class EtcdChecker {
         this.ttl = ttl
     }
 
+    String getEtcdAddr() {
+        return etcdAddr
+    }
+
     void init() {
         def c = Conf.instance
         connectTimeout = c.getInt('leader.check.connectTimeout.ms', 200)
         readTimeout = c.getInt('leader.check.readTimeout.ms', 1000)
+
+        if (!this.etcdAddr.contains(',') || !this.etcdAddr.startsWith('http://')) {
+            // dns lookup better?
+
+            def tmpAddr = this.etcdAddr.startsWith('http://') ? this.etcdAddr : 'http://' + this.etcdAddr
+            def req = HttpRequest.get(tmpAddr + '/v2/members')
+            setTimeout(req)
+            def body = req.body()
+            log.info body
+
+            def r = JSONObject.parseObject(body)
+            def members = r.getJSONArray('members')
+            List<String> urls = []
+            members.each { m ->
+                def jo = m as JSONObject
+                def peerUrls = jo.getJSONArray('clientURLs')
+                peerUrls.each { u ->
+                    if (u.toString().contains('127.')) {
+                        return
+                    }
+                    urls << u.toString()
+                }
+            }
+            this.etcdAddr = urls.join(',')
+        }
     }
 
     private void setTimeout(HttpRequest req) {

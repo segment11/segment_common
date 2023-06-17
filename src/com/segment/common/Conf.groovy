@@ -2,12 +2,32 @@ package com.segment.common
 
 import groovy.transform.CompileStatic
 
+import java.util.regex.Pattern
+
 @CompileStatic
 @Singleton
 class Conf {
 
+    static String platform
+
+    static String arch
+
+    static String platformArch
+
+    static {
+        def osName = System.properties['os.name'].toString().replaceAll(' ', '').toLowerCase()
+        Map<String, Pattern> osMap = [:]
+        osMap['windows'] = ~/.*win.*/
+        osMap['linux'] = ~/.*linux.*/
+        osMap['macosx'] = ~/.*darwin.*/
+
+        platform = osMap.find { osName ==~ it.value }?.key
+        arch = System.properties['os.arch'] ==~ /.*64.*/ ? 'x86_64' : 'i386'
+        platformArch = "${platform}-${arch}".toString()
+    }
+
     static boolean isWindows() {
-        System.getProperty('os.name').toLowerCase().contains('windows')
+        platform == 'windows'
     }
 
     private String workDir

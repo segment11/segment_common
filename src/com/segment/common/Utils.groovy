@@ -7,29 +7,6 @@ import org.apache.commons.net.telnet.TelnetClient
 @CompileStatic
 @Slf4j
 class Utils {
-    static void stopWhenConsoleQuit(Closure<Void> closure, InputStream is = null) {
-        boolean isStopped = false
-        Runtime.addShutdownHook {
-            if (!isStopped) {
-                closure.call()
-            }
-        }
-
-        if (Conf.isWindows()) {
-            Thread.start {
-                def br = new BufferedReader(new InputStreamReader(is ?: System.in))
-                while (true) {
-                    if (br.readLine() == 'quit') {
-                        println 'quit from console...'
-                        closure.call()
-                        isStopped = true
-                        break
-                    }
-                }
-            }
-        }
-    }
-
     static String getStackTraceString(Throwable t) {
         if (!t) {
             return ''
@@ -45,7 +22,7 @@ class Utils {
         writer.toString()
     }
 
-    static String localIpCached = null
+    private static String localIpCached = null
 
     static String localIp(String pre = null) {
         if (localIpCached != null) {
@@ -89,8 +66,8 @@ class Utils {
         sb.toString()
     }
 
-    static boolean isPortListenAvailable(int port, String host = '127.0.0.1') {
-        def tc = new TelnetClient(connectTimeout: 500)
+    static boolean isPortListenAvailable(int port, String host = '127.0.0.1', int connectTimeout = 500) {
+        def tc = new TelnetClient(connectTimeout: connectTimeout)
         try {
             tc.connect(host, port)
             return false

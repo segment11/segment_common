@@ -44,6 +44,7 @@ class EtcdChecker {
             def req = HttpRequest.get(tmpAddr + '/v2/members')
             setTimeout(req)
             def body = req.body()
+            log.info 'get etcd members'
             log.info body
 
             def r = JSONObject.parseObject(body)

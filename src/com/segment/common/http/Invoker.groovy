@@ -54,13 +54,19 @@ class Invoker {
             def req = isPost ? HttpRequest.post(addr + uri) :
                     HttpRequest.get(addr + uri, params ?: [:], true)
 
+            int connectTimeoutFinal
             int readTimeoutFinal
+            if (params?.connectTimeout) {
+                connectTimeoutFinal = params.connectTimeout as int
+            } else {
+                connectTimeoutFinal = connectTimeout
+            }
             if (params?.readTimeout) {
                 readTimeoutFinal = params.readTimeout as int
             } else {
                 readTimeoutFinal = readTimeout
             }
-            req.connectTimeout(connectTimeout).readTimeout(readTimeoutFinal)
+            req.connectTimeout(connectTimeoutFinal).readTimeout(readTimeoutFinal)
 
             if (headerSetter) {
                 headerSetter.set(req)

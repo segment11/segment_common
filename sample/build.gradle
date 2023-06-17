@@ -1,0 +1,76 @@
+plugins {
+    id 'groovy'
+}
+
+group 'org.segment'
+
+final String artifactId = 'segment_common_sample'
+
+repositories {
+    maven {
+        url 'https://maven.aliyun.com/nexus/content/groups/public/'
+    }
+    maven {
+        url 'https://s01.oss.sonatype.org/content/groups/public'
+    }
+
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        groovy {
+            srcDirs = ['test']
+        }
+        resources {
+            srcDirs = ['test']
+        }
+    }
+}
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+compileGroovy {
+    groovyOptions.configurationScript = file("config.groovy")
+}
+
+dependencies {
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+    implementation group: 'org.apache.groovy', name: 'groovy', version: '4.0.12'
+    implementation group: 'org.apache.groovy', name: 'groovy-sql', version: '4.0.12'
+
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.20.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.20.0'
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.14.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.14.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
+
+    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    implementation group: 'com.esotericsoftware', name: 'reflectasm', version: '1.11.9'
+
+    implementation group: 'com.alibaba', name: 'druid', version: '1.1.24'
+    implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+
+    implementation group: 'io.prometheus', name: 'simpleclient', version: '0.15.0'
+
+    implementation group: 'io.github.segment11', name: 'segmentd', version: '1.2-SNAPSHOT'
+
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-4.0'
+
+    implementation project(':segment_common')
+}
+
+test {
+    useJUnitPlatform()
+}

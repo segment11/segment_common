@@ -56,6 +56,8 @@ dependencies {
 
     implementation group: 'com.github.kevinsawicki', name: 'http-request', version: '6.0'
 
+    implementation group: 'io.prometheus', name: 'simpleclient', version: '0.15.0'
+
     testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-4.0'
     testImplementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
     testImplementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.20.0'

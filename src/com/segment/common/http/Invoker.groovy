@@ -35,18 +35,18 @@ class Invoker {
 
     HeaderSetter headerSetter
 
-    String json(Object obj) {
+    static String json(Object obj) {
         def mapper = new ObjectMapper()
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
         mapper.serializationInclusion = JsonInclude.Include.NON_NULL
         mapper.writeValueAsString(obj)
     }
 
-    private <T> T readJson(String string, Class<T> clz) {
+    private static <T> T readJson(String string, Class<T> clz) {
         new ObjectMapper().readValue(string, clz)
     }
 
-    public <T> T request(String uri, Map params = null, Class<T> clz = String,
+    <T> T request(String uri, Map params = null, Class<T> clz = String,
                          Closure<Void> failCallback = null, boolean isPost = false) {
         def addr = serverAddr ?: (serverScheme + serverHost + ':' + serverPort)
 

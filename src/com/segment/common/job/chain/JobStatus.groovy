@@ -13,7 +13,7 @@ enum JobStatus {
     }
 
     static JobStatus from(int value) {
-        for (one in JobStatus.values()) {
+        for (one in values()) {
             if (one.value == value) {
                 return one
             }

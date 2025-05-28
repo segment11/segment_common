@@ -111,6 +111,7 @@ abstract class Job {
             updateStatus(JobStatus.done, JobResult.ok('all done'), costMs.intValue())
             allDone()
         } else {
+            assert failedStep != null
             fail(failedStep)
         }
     }

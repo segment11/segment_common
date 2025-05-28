@@ -30,7 +30,7 @@ abstract class Processor {
     void submit(Runnable runnable) {
         try {
             executor.submit runnable
-        } catch (RejectedExecutionException e) {
+        } catch (RejectedExecutionException ignored) {
             log.warn 'there is a processor is running for {}, try next time', name()
         }
     }

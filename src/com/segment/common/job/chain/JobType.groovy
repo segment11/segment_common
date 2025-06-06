@@ -11,8 +11,4 @@ import groovy.transform.TupleConstructor
 @ToString(includeNames = true)
 class JobType {
     String name
-
-    // save to database
-    int value
-
 }

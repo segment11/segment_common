@@ -76,7 +76,11 @@ class Conf {
                 } else {
                     throw new RuntimeException('conf.properties not found')
                 }
+            } else {
+                params.put('conf.file.path', confFileDev.absolutePath)
             }
+        } else {
+            params.put('conf.file.path', confFile.absolutePath)
         }
         this
     }

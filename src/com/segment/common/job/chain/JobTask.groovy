@@ -45,6 +45,13 @@ abstract class JobTask {
         step.name
     }
 
+    Map<String, Object> toMap() {
+        return [
+                step  : stepAsUuid(),
+                params: params
+        ]
+    }
+
     @Override
     String toString() {
         step ? step.name : "to be set task"

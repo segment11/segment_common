@@ -28,6 +28,22 @@ abstract class Job {
 
     Date updatedDate
 
+    protected Map<String, Object> toMap() {
+        return [
+                id         : id,
+                creator    : creator?.name,
+                type       : type.name,
+                status     : status.name(),
+                params     : params,
+                result     : result,
+                taskList   : taskList.collect { it.toMap() },
+                failedNum  : failedNum,
+                costMs     : costMs,
+                createdDate: createdDate,
+                updatedDate: updatedDate
+        ]
+    }
+
     abstract int appId()
 
     abstract void save()
@@ -88,10 +104,7 @@ abstract class Job {
             }
             task.isJobProcessBeforeRestart = isJobProcessBeforeRestart()
 
-            def timer = JobStatsHolder.instance.jobTaskProcessTimeSummary.
-                    labels(appId().toString(), type.name, task.step.name).startTimer()
             def result = task.run()
-            timer.observeDuration()
 
             if (!result.isOk) {
                 long costMs = System.currentTimeMillis() - beginT

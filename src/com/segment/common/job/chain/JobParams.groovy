@@ -14,6 +14,21 @@ class JobParams {
         params[key]
     }
 
+    String getString(String key, String defaultValue) {
+        def val = get(key)
+        return val == null ? defaultValue : val
+    }
+
+    int getInt(String key, int defaultValue) {
+        def val = get(key)
+        return val == null ? defaultValue : val as int
+    }
+
+    double getDouble(String key, double defaultValue) {
+        def val = get(key)
+        return val == null ? defaultValue : val as double
+    }
+
     void put(String key, String value) {
         params[key] = value
     }

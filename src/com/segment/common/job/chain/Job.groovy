@@ -32,13 +32,8 @@ abstract class Job {
         return [
                 id         : id,
                 creator    : creator?.name,
-                type       : type.name,
-                status     : status.name(),
                 params     : params,
-                result     : result,
                 taskList   : taskList.collect { it.toMap() },
-                failedNum  : failedNum,
-                costMs     : costMs,
                 createdDate: createdDate,
                 updatedDate: updatedDate
         ]

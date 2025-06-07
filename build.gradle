@@ -1,7 +1,5 @@
 plugins {
     id 'groovy'
-    id 'signing'
-    id 'maven-publish'
 }
 
 group 'io.github.segment11'
@@ -48,7 +46,7 @@ dependencies {
 
     implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.83'
 
-    implementation group: 'commons-net', name: 'commons-net', version: '3.6'
+    implementation group: 'commons-net', name: 'commons-net', version: '3.9.0'
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.14.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.14.1'
@@ -68,57 +66,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-def ossReleaseUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2'
-def ossSnapshotUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots'
-//ossSnapshotUrl = ossReleaseUrl
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    from sourceSets.main.allSource
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-//            artifactId = name
-            groupId = group
-            version = version
-
-            pom {
-                name = 'segmentweb'
-                description = 'Common tools for other projects.'
-                url = 'https://github.com/segment11/segmentweb'
-                licenses {
-                    license {
-                        name = 'The Apache Software License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'segment11'
-                        name = 'Yong Ding'
-                        email = 'dingyong87@163.com'
-                    }
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            name = 'ossrh'
-            url = version.endsWith('SNAPSHOT') ? ossSnapshotUrl : ossReleaseUrl
-            credentials {
-                username = System.getProperty('ossrh.username')
-                password = System.getProperty('ossrh.password')
-            }
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.mavenJava
 }
 

@@ -11,6 +11,8 @@ class JobResult {
     // for next step parameter pass
     JobParams params = new JobParams()
 
+    JobResult() {}
+
     private JobResult(boolean isOk, String message) {
         this.isOk = isOk
         this.message = message

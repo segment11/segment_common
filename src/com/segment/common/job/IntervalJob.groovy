@@ -57,6 +57,6 @@ abstract class IntervalJob {
                 log.error('do interval job error, name: ' + name(), e)
             }
         }, finalDelaySeconds, interval, TimeUnit.SECONDS)
-        log.info 'start interval job, name: {}', name()
+        log.info 'start interval job, name: {}, interval: {} s', name(), interval
     }
 }

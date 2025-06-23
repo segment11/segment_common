@@ -10,10 +10,6 @@ repositories {
     maven {
         url 'https://maven.aliyun.com/nexus/content/groups/public/'
     }
-    maven {
-        url 'https://s01.oss.sonatype.org/content/groups/public'
-    }
-
     mavenCentral()
 }
 
@@ -64,11 +60,11 @@ dependencies {
 
     implementation group: 'io.prometheus', name: 'simpleclient', version: '0.15.0'
 
-    implementation group: 'io.github.segment11', name: 'segmentd', version: '1.2-SNAPSHOT'
-
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-4.0'
 
     implementation project(':segment_common')
+    implementation project(':segmentd')
+
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-4.0'
 }
 
 test {

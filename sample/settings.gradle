@@ -3,3 +3,6 @@ rootProject.name = 'segment_common_sample'
 include ':segment_common'
 project(':segment_common').projectDir = new File(settingsDir, '..')
 
+include ':segmentd'
+project(':segmentd').projectDir = new File(settingsDir, '../../segmentd')
+
